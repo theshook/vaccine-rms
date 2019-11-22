@@ -15,10 +15,12 @@ class CreateMunicipalitiesTable extends Migration
     {
         Schema::create('municipalities', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('barangay_id');
+            $table->unsignedBigInteger('barangay_id');
             $table->string('mun_code');
             $table->string('mun_title');
             $table->timestamps();
+
+            $table->foreign('barangay_id')->references('id')->on('barangays');
         });
     }
 
