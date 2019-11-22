@@ -10,11 +10,4 @@
 			toast.addEventListener('mouseleave', Swal.resumeTimer)
 		}
 	});
-
-	@if (session()->has('success'))
-		Toast.fire({
-		type: 'success',
-		title: '{!! session()->get('success') !!}'
-		});
-	@endif
 </script>

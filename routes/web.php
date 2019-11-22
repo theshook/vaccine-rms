@@ -20,4 +20,9 @@ Route::get('/home', function () {
     return view('home');
 })->name('home')->middleware('auth');
 
+
+Route::get('/users/trashed', 'UsersController@trashed')->name('users.trashed');
+Route::post('/users/restore/{user}', 'UsersController@restore')->name('users.restore');
 Route::resource('/users', 'UsersController');
+
+Route::resource('/babies', 'BabiesController');

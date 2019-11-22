@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBabyInfosTable extends Migration
+class CreateBabiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateBabyInfosTable extends Migration
      */
     public function up()
     {
-        Schema::create('baby_infos', function (Blueprint $table) {
+        Schema::create('babies', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->date('baby_dob');
             $table->string('baby_family_serial_number');
@@ -33,6 +33,7 @@ class CreateBabyInfosTable extends Migration
             $table->integer('baby_zip');
             $table->date('baby_date_screening');
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 
@@ -43,6 +44,6 @@ class CreateBabyInfosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('baby_infos');
+        Schema::dropIfExists('babies');
     }
 }

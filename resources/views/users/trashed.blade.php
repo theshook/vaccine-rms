@@ -1,14 +1,15 @@
 @extends('adminlte::page')
 
-@section('title', 'Vaccine Users')
+@section('title', 'Vaccine Users Trashed')
 
 @section('content_header')
 <div class="d-flex justify-content-between">
-	<h1>Users</h1>
+	<h1>Trashed Records</h1>
 	<nav aria-label="breadcrumb">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-			<li class="breadcrumb-item active" aria-current="page">Users</li>
+			<li class="breadcrumb-item"><a href="{{ route('users.index') }}">Users</a></li>
+			<li class="breadcrumb-item active" aria-current="page">Trashed Records</li>
 		</ol>
 	</nav>
 </div>
@@ -18,14 +19,7 @@
 <div class="row">
 	<div class="card w-100">
 		<div class="card-header bg-white text-dark">
-			<h5>USERS LIST 
-				<a href="{{ route('users.trashed') }}" class="btn btn-danger btn-sm float-right ml-3">
-					<i class="fas fa-dumpster"></i> Trashed
-					<span class="badge badge-pill badge-light">{{ $trashed }}</span>
-				</a>
-				<a href="{{ route('users.create') }}" class="btn btn-primary btn-sm float-right ml-3">
-					<i class="fas fa-plus-square"></i> New
-				</a>
+			<h5>USERS TRASHED LIST 
 				<span class="float-right">
 					<div id="utils">
 					</div>
@@ -41,23 +35,17 @@
 						<th scope="col">Last Name</th>
 						<th scope="col">First Name</th>
 						<th scope="col">Middle Name</th>
-						<th scope="col">Created At</th>
-						<th scope="col">Updated At</th>
+						<th scope="col">Deleted At</th>
 						</tr>
 					</thead>
 					<tbody>
-						@foreach ($users as $user)
+						@foreach ($trashed as $user)
 							<tr>
 								<td>
 									<div class="row">
-										<a href="{{ route('users.edit', $user->id) }}" class="btn btn-info btn-sm">
-											<i class="fas fa-pen"></i>
-										</a>
-										&nbsp;
-										<form action="{{ route('users.destroy', $user->id) }}" method="POST" id="userDelete">
+										<form action="{{ route('users.restore', $user->id) }}" method="POST" id="userRestore">
 											@csrf
-											@method('DELETE')
-											<button type="button" id="btn-submit" class="btn btn-danger btn-sm" onclick="deleteUser()"><i class="fas fa-trash-alt"></i></button>
+											<button type="button" id="btn-submit" class="btn btn-info btn-sm" onclick="deleteUser()"><i class="fas fa-trash-restore"></i></button>
 										</form>
 										&nbsp;
 										{{ $user->email }}
@@ -66,8 +54,7 @@
 								<td>{{ $user->last_name }}</td>
 								<td>{{ $user->first_name }}</td>
 								<td>{{ $user->middle_name }}</td>
-								<td>{{ $user->created_at }}</td>
-								<td>{{ $user->updated_at }}</td>
+								<td>{{ $user->deleted_at }}</td>
 							</tr>
 						@endforeach
 					</tbody>
@@ -123,15 +110,15 @@
 		});
 
 		function deleteUser() {
-			var form = $('#userDelete');
+			var form = $('#userRestore');
 			Swal.fire({
 			title: 'Are you sure?',
-			text: "You won't be able to revert this!",
+			text: "You want to restore this record?",
 			type: 'warning',
 			showCancelButton: true,
 			confirmButtonColor: '#3085d6',
 			cancelButtonColor: '#d33',
-			confirmButtonText: 'Yes, delete it!'
+			confirmButtonText: 'Yes, restore it!'
 			}).then((result) => {
 				if (result.value) {
 					form.submit();

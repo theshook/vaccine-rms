@@ -1,14 +1,14 @@
 @extends('adminlte::page')
 
-@section('title', 'Vaccine Users')
+@section('title', 'Vaccine Babies')
 
 @section('content_header')
 <div class="d-flex justify-content-between">
-	<h1>Users</h1>
+	<h1>Babies</h1>
 	<nav aria-label="breadcrumb">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-			<li class="breadcrumb-item active" aria-current="page">Users</li>
+			<li class="breadcrumb-item active" aria-current="page">Babies</li>
 		</ol>
 	</nav>
 </div>
@@ -18,12 +18,8 @@
 <div class="row">
 	<div class="card w-100">
 		<div class="card-header bg-white text-dark">
-			<h5>USERS LIST 
-				<a href="{{ route('users.trashed') }}" class="btn btn-danger btn-sm float-right ml-3">
-					<i class="fas fa-dumpster"></i> Trashed
-					<span class="badge badge-pill badge-light">{{ $trashed }}</span>
-				</a>
-				<a href="{{ route('users.create') }}" class="btn btn-primary btn-sm float-right ml-3">
+			<h5>BABY LISTS 
+				<a href="{{ route('babies.create') }}" class="btn btn-primary btn-sm float-right ml-3">
 					<i class="fas fa-plus-square"></i> New
 				</a>
 				<span class="float-right">
@@ -37,37 +33,41 @@
 				<table id="myExTable" class="table table-bordered table-hover">
 					<thead>
 						<tr>
-						<th scope="col">Email</th>
-						<th scope="col">Last Name</th>
-						<th scope="col">First Name</th>
-						<th scope="col">Middle Name</th>
+						<th scope="col">#</th>
+						<th scope="col">NHTS</th>
+						<th scope="col">Name</th>
+						<th scope="col">Gender</th>
+						<th scope="col">Mother</th>
+						<th scope="col">Address</th>
+						<th scope="col">Screen Date</th>
 						<th scope="col">Created At</th>
 						<th scope="col">Updated At</th>
 						</tr>
 					</thead>
 					<tbody>
-						@foreach ($users as $user)
+						@foreach ($babies as $baby)
 							<tr>
 								<td>
 									<div class="row">
-										<a href="{{ route('users.edit', $user->id) }}" class="btn btn-info btn-sm">
+										<a href="{{ route('users.edit', $baby->id) }}" class="btn btn-info btn-sm">
 											<i class="fas fa-pen"></i>
 										</a>
 										&nbsp;
-										<form action="{{ route('users.destroy', $user->id) }}" method="POST" id="userDelete">
-											@csrf
-											@method('DELETE')
-											<button type="button" id="btn-submit" class="btn btn-danger btn-sm" onclick="deleteUser()"><i class="fas fa-trash-alt"></i></button>
-										</form>
-										&nbsp;
-										{{ $user->email }}
+										{{ $baby->baby_family_serial_number }}
 									</div>
 								</td>
-								<td>{{ $user->last_name }}</td>
-								<td>{{ $user->first_name }}</td>
-								<td>{{ $user->middle_name }}</td>
-								<td>{{ $user->created_at }}</td>
-								<td>{{ $user->updated_at }}</td>
+								<td>{{ $baby->baby_nhts }}</td>
+								<td>
+									{{ $baby->baby_first_name.' '.$baby->baby_middle_name.' '. $baby->baby_last_name.' '.$baby->baby_name_ext }}
+								</td>
+								<td>{{ $baby->baby_sex }}</td>
+								<td>
+									{{ $baby->baby_mother_first.' '. $baby->baby_mother_middle.' '.$baby->baby_mother_last }}
+								</td>
+								<td>{{ $baby->baby_street.', '.$baby->baby_barangay }}</td>
+								<td>{{ $baby->baby_date_screening }}</td>
+								<td>{{ $baby->created_at }}</td>
+								<td>{{ $baby->updated_at }}</td>
 							</tr>
 						@endforeach
 					</tbody>
@@ -79,7 +79,6 @@
 @stop
 
 @section('js')
-@include('includes.success')
     <script>
         $(document).ready( function () {
             var table = $('#myExTable').DataTable({
@@ -121,22 +120,5 @@
             });
 			table.buttons().container().appendTo($('#utils'));
 		});
-
-		function deleteUser() {
-			var form = $('#userDelete');
-			Swal.fire({
-			title: 'Are you sure?',
-			text: "You won't be able to revert this!",
-			type: 'warning',
-			showCancelButton: true,
-			confirmButtonColor: '#3085d6',
-			cancelButtonColor: '#d33',
-			confirmButtonText: 'Yes, delete it!'
-			}).then((result) => {
-				if (result.value) {
-					form.submit();
-				}
-			});
-		}
     </script>
 @stop

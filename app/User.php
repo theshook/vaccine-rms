@@ -4,12 +4,14 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -45,5 +47,17 @@ class User extends Authenticatable
     public function getUpdatedAtAttribute($date)
     {
         return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d M Y h:ia');
+    }
+    public function getDeletedAtAttribute($date)
+    {
+        return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d M Y h:ia');
+    }
+    public function getFirstNameAttribute($value)
+    {
+        return ucfirst($value);
+    }
+    public function getLastNameAttribute($value)
+    {
+        return ucfirst($value);
     }
 }

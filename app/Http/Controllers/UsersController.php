@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUsersRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
@@ -15,7 +17,11 @@ class UsersController extends Controller
      */
     public function index()
     {
-        return view('users.index')->with('users', User::all());
+        $trashed = User::onlyTrashed()->count();
+        $users = User::where('id', '!=', Auth::id())->get();
+        return view('users.index')
+            ->with('users', $users)
+            ->with('trashed', $trashed);
     }
 
     /**
@@ -67,9 +73,9 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+        return view('users.edit')->with('user', $user);
     }
 
     /**
@@ -79,9 +85,18 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        $user->update([
+            'first_name' => $request->first_name,
+            'middle_name' => $request->middle_name,
+            'last_name' => $request->last_name,
+            'name_ext' => $request->name_ext,
+        ]);
+
+        session()->flash('success', 'User updated successfully.');
+
+        return back();
     }
 
     /**
@@ -90,8 +105,25 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+        session()->flash('success', 'User deleted successfully.');
+        return redirect(route('users.index'));
+    }
+
+    public function trashed()
+    {
+        $trashed = User::onlyTrashed()->get();
+        return view('users.trashed')
+            ->with('trashed', $trashed);
+    }
+
+    public function restore($user)
+    {
+        $restoreUser = User::where('id', $user)->withTrashed();
+        $restoreUser->restore();
+        session()->flash('success', 'User restored successfully.');
+        return redirect(route('users.trashed'));
     }
 }
