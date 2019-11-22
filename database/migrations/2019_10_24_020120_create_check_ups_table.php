@@ -15,13 +15,13 @@ class CreateCheckUpsTable extends Migration
     {
         Schema::create('check_ups', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('baby_infos_id');
+            $table->unsignedBigInteger('baby_id');
             $table->text('check_complain');
             $table->timestamps();
         });
 
         Schema::table('check_ups', function(Blueprint $table) {
-            $table->foreign('baby_infos_id')->references('id')->on('baby_infos');
+            $table->foreign('baby_id')->references('id')->on('babies');
         });
     }
 
