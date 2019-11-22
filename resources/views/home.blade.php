@@ -7,7 +7,21 @@
 @stop
 
 @section('content')
-    <div id="map"></div>
+    <div class="row">
+        <section class="col-lg-7">
+            <div class="card bg-white">
+                Another Content
+            </div>
+        </section>
+        <section class="col-lg-5">
+            <div class="card bg-white">
+                <div class="card-header border-0"><i class="fas fa-map-marker-alt mr-1"></i>Bayambang Map</div>
+                <div class="card-body">
+                    <div id="map" style="height: 250px; width: 100%; position: relative; overflow: hidden; background-color: transparent;"></div>
+                </div>
+            </div>
+        </section>
+    </div>
 @stop
 
 @section('css')
@@ -15,14 +29,15 @@
 <script src='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js'></script>
 <link href='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet' />
 <style>
+.mapboxgl-ctrl-bottom-left {
+    display: none;
+}
 /**
 * Create a position for the map
 * on the page */
 #map {
-    position: absolute;
-top: 150px;
-bottom: 0;
-  width: 80%;
+    width: 100%;
+    height: 500px;
 }
 </style>
 @stop
