@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Baby;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BabiesController extends Controller
 {
@@ -28,7 +29,8 @@ class BabiesController extends Controller
      */
     public function create()
     {
-        return view('babies.create');
+        $barangays = DB::table('barangays')->select('bar_name')->orderBy('bar_name', 'asc')->get();
+        return view('babies.create')->withBarangays($barangays);
     }
 
     /**

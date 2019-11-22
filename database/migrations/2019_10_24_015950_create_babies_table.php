@@ -28,9 +28,9 @@ class CreateBabiesTable extends Migration
             $table->string('baby_mother_middle');
             $table->string('baby_street');
             $table->string('baby_barangay');
-            $table->string('baby_municipality');
-            $table->string('baby_province');
-            $table->integer('baby_zip');
+            $table->string('baby_municipality')->default('Bayambang');
+            $table->string('baby_province')->default('Pangasinan');
+            $table->integer('baby_zip')->default(2423);
             $table->date('baby_date_screening');
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
