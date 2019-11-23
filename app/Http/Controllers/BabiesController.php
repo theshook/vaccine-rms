@@ -43,24 +43,36 @@ class BabiesController extends Controller
      */
     public function store(CreateBabiesRequest $request)
     {
-        dd($request->all());
+        $baby = new Baby();
+        if (!empty($request->barangay)) {
+            $barangay = $baby->getBarangayTitle($request->barangay)->bar_title;
+            $municipal = $baby->getMunicipalTitle($request->municipality)->mun_title;
+            $lnglat = $baby->getLngLat($barangay, $municipal);
+        }
+        Baby::create([
+            'baby_family_serial_number' => $request->baby_family_serial_number, 
+            'baby_dob' => $request->dob, 
+            'baby_nhts' => $request->nhts, 
+            'baby_first_name' => $request->first_name, 
+            'baby_middle_name' => $request->middle_name, 
+            'baby_last_name' => $request->last_name, 
+            'baby_name_ext' => $request->name_ext, 
+            'baby_mother_first' => $request->mother_first_name, 
+            'baby_mother_middle' => $request->mother_middle_name, 
+            'baby_mother_last' => $request->mother_last_name, 
+            'baby_municipality' => $request->municipality, 
+            'baby_barangay' => $request->barangay, 
+            'baby_date_screening' => $request->dateScreening, 
+            'baby_zip' => $request->zipCode, 
+            'baby_street' => $request->street, 
+            'baby_sex' => $request->gender,
+            'baby_lat' => $lnglat[1], 
+            'baby_lng' => $lnglat[0]
+        ]);
 
-        // create curl resource
-        $ch = curl_init();
-        // set url
-        curl_setopt(
-            $ch,
-            CURLOPT_URL,
-            "https://api.mapbox.com/geocoding/v5/mapbox.places/Asin,%20Bayambang,%20Pangasinan,%20Philippines.json?access_token=pk.eyJ1IjoiaGFqaWJhciIsImEiOiJjajcxbGtpZ3AwMm1iMnFtbmhoanhjZm03In0.PP21CG13VVtfaH4tB94InA"
-        );
-        //return the transfer as a string
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        // $output contains the output string
-        $output = curl_exec($ch);
-        // close curl resource to free up system resources
-        curl_close($ch);
-        $output = json_decode($output, true);
-        $lng = $output['features'][0]['geometry']['coordinates'][0];
+        session()->flash('success', 'Baby Information successfully saved.');
+
+        return redirect(route('babies.create'));
     }
 
     /**

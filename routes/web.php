@@ -16,9 +16,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', function () {
-    return view('home');
-})->name('home')->middleware('auth');
+Route::get('/home', 'HomeController@home')->name('home')->middleware('auth');
+Route::get('api/geojson', 'HomeController@getGeoJson')->name('home.geojson')->middleware('auth');
 
 
 Route::get('/users/trashed', 'UsersController@trashed')->name('users.trashed');

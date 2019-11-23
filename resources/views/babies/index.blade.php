@@ -40,8 +40,6 @@
 						<th scope="col">Mother</th>
 						<th scope="col">Address</th>
 						<th scope="col">Screen Date</th>
-						<th scope="col">Created At</th>
-						<th scope="col">Updated At</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -64,10 +62,8 @@
 								<td>
 									{{ $baby->baby_mother_first.' '. $baby->baby_mother_middle.' '.$baby->baby_mother_last }}
 								</td>
-								<td>{{ $baby->baby_street.', '.$baby->baby_barangay }}</td>
+								<td>{{ $baby->baby_street.', '.$baby->baby_barangay.', '. $baby->baby_municipality }}</td>
 								<td>{{ $baby->baby_date_screening }}</td>
-								<td>{{ $baby->created_at }}</td>
-								<td>{{ $baby->updated_at }}</td>
 							</tr>
 						@endforeach
 					</tbody>

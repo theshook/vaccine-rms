@@ -28,18 +28,18 @@
 				@csrf
 					<section class="form-row">
 						<div class="form-group col-md-4">
-							<label for="familyNumber">
+							<label for="baby_family_serial_number">
 								Family Number
 								<span class="text-danger"><strong>*</strong></span>
 							</label>
 							<input type="text" 
-								class="form-control  @error('familyNumber') is-invalid @enderror" 
-								name="familyNumber" 
-								id="familyNumber" 
+								class="form-control  @error('baby_family_serial_number') is-invalid @enderror" 
+								name="baby_family_serial_number" 
+								id="baby_family_serial_number" 
 								placeholder="123456789"
-								value="{{ old('familyNumber') }}"
+								value="{{ old('baby_family_serial_number') }}"
 							>
-							@include('errors.input_error', ['name' => 'familyNumber'])
+							@include('errors.input_error', ['name' => 'baby_family_serial_number'])
 						</div>
 						<div class="form-group col-md-4">
 							<label for="dob">
@@ -106,11 +106,11 @@
 								<span class="text-danger"><strong>*</strong></span>
 							</label>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="option1" checked>
+								<input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="M" checked>
 								<label class="form-check-label" for="inlineRadio1">Male</label>
 							</div>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="option2">
+								<input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="F">
 								<label class="form-check-label" for="inlineRadio2">Female</label>
 							</div>
 						</div>
@@ -120,24 +120,24 @@
 								<span class="text-danger"><strong>*</strong></span>
 							</label>
 							<input type="text" 
-								name="first_name" 
-								class="form-control @error('first_name') is-invalid @enderror" 
-								id="first_name" placeholder="Juan" 
-								value="{{ old('first_name') }}"
+								name="mother_first_name" 
+								class="form-control @error('mother_first_name') is-invalid @enderror" 
+								id="first_name" placeholder="Juanita" 
+								value="{{ old('mother_first_name') }}"
 							>
-							@include('errors.input_error', ['name' => 'first_name'])
+							@include('errors.input_error', ['name' => 'mother_first_name'])
 						</div>
 						<div class="form-group col-md-3">
 							<label for="middleName">Mother Middle Name</label>
-							<input type="text" name="middle_name" class="form-control" id="middleName" placeholder="Serrano" value="{{ old('middle_name') }}">
+							<input type="text" name="mother_middle_name" class="form-control" id="middleName" placeholder="Serrano" value="{{ old('mother_middle_name') }}">
 						</div>
 						<div class="form-group col-md-4">
 							<label for="lastName">
 								Mother Last Name
 								<span class="text-danger"><strong>*</strong></span>
 							</label>
-							<input type="text"  name="last_name" class="form-control @error('last_name') is-invalid @enderror" id="lastName" placeholder="Dela Cruz" value="{{ old('last_name') }}">
-							@include('errors.input_error', ['name' => 'last_name'])
+							<input type="text"  name="mother_last_name" class="form-control @error('mother_last_name') is-invalid @enderror" id="lastName" placeholder="Dela Cruz" value="{{ old('mother_last_name') }}">
+							@include('errors.input_error', ['name' => 'mother_last_name'])
 						</div>
 					</section>
 					<div class="form-row">
@@ -184,7 +184,7 @@
 							<input type="number"  name="zipCode" class="form-control @error('zipCode') is-invalid @enderror" id="zipCode" placeholder="2423" value="{{ old('zipCode') }}">
 							@include('errors.input_error', ['name' => 'zipCode'])
 						</div>
-						<div class="form-group col-md-2">
+						<div class="form-group col-md-4">
 							<label for="dateScreening">
 								Date Screening
 								<span class="text-danger"><strong>*</strong></span>

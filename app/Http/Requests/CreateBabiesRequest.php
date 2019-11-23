@@ -24,13 +24,13 @@ class CreateBabiesRequest extends FormRequest
     public function rules()
     {
         return [
-            "familyNumber" => 'required|unique:babies',
+            "baby_family_serial_number" => 'required|unique:babies',
             "dob" => 'required',
             "nhts" => 'required',
             "first_name" => 'required',
-            "middle_name" => 'required',
             "last_name" => 'required',
-            "name_ext" => 'required',
+            "mother_first_name" => 'required',
+            "mother_last_name" => 'required',
             "street" => 'required',
             "municipality" => "required",
             "barangay" => "required",
@@ -42,7 +42,9 @@ class CreateBabiesRequest extends FormRequest
     public function messages()
     {
         return [
-            'dob.required' => 'Date of Birth is requried.'
+            'dob.required' => 'Date of Birth is requried.',
+            'baby_family_serial_number.required' => 'Family number is required.',
+            'baby_family_serial_number.unique' => 'Family number already exists.'
         ];
     }
 }
