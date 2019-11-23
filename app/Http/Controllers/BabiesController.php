@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Baby;
+use App\Http\Requests\CreateBabiesRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -29,8 +30,9 @@ class BabiesController extends Controller
      */
     public function create()
     {
-        $barangays = DB::table('barangays')->select('bar_title', 'id')->orderBy('bar_title', 'asc')->get();
-        return view('babies.create')->withBarangays($barangays);
+        $municipalities = DB::table('municipalities')->select('mun_title', 'id')->orderBy('mun_title', 'asc')->get();
+        return view('babies.create')
+            ->with('municipalities', $municipalities);
     }
 
     /**
@@ -39,9 +41,9 @@ class BabiesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateBabiesRequest $request)
     {
-        //
+        dd($request->all());
     }
 
     /**
@@ -87,5 +89,14 @@ class BabiesController extends Controller
     public function destroy(Baby $baby)
     {
         //
+    }
+
+    public function apiGetMunicipalBarangay($municipal_id = 0)
+    {
+        $barangays = DB::table('barangays')
+            ->where('municipal_id', $municipal_id)
+            ->select('bar_title', 'id')->orderBy('bar_title', 'asc')->get();
+        echo json_encode($barangays);
+        exit;
     }
 }

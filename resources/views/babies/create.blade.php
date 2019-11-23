@@ -9,7 +9,7 @@
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
 			<li class="breadcrumb-item"><a href="{{ route('babies.index') }}">Babies</a></li>
-			<li class="breadcrumb-item active" aria-current="page">Record New Baby</li>
+			<li class="breadcrumb-item active" aria-current="page">Baby Information</li>
 		</ol>
 	</nav>
 </div>
@@ -24,7 +24,7 @@
 		</div>
 		<div class="card-body">
 			<div class="col-xs-12">
-				<form method="POST" action="{{ route('users.store') }}">
+				<form method="POST" action="{{ route('babies.store') }}">
 				@csrf
 					<section class="form-row">
 						<div class="form-group col-md-4">
@@ -39,7 +39,7 @@
 								placeholder="123456789"
 								value="{{ old('familyNumber') }}"
 							>
-							@include('errors.input_error', ['name' => 'dob'])
+							@include('errors.input_error', ['name' => 'familyNumber'])
 						</div>
 						<div class="form-group col-md-4">
 							<label for="dob">
@@ -106,11 +106,11 @@
 								<span class="text-danger"><strong>*</strong></span>
 							</label>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>
+								<input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="option1" checked>
 								<label class="form-check-label" for="inlineRadio1">Male</label>
 							</div>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+								<input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="option2">
 								<label class="form-check-label" for="inlineRadio2">Female</label>
 							</div>
 						</div>
@@ -150,30 +150,31 @@
 							@include('errors.input_error', ['name' => 'street'])
 						</div>
 						<div class="form-group col-md-2">
-							<label for="barangay">
-								Barangay
-								<span class="text-danger"><strong>*</strong></span>
-							</label>
-							<select class="js-example-basic-single form-control" name="barangay">
-								@foreach ($barangays as $barangay)
-									<option value="{{ $barangay->id }}">
-										{{ $barangay->bar_title }}
-									</option>
-								@endforeach
-							</select>
-						</div>
-						<div class="form-group col-md-2">
 							<label for="municipality">
 								Municipality
 								<span class="text-danger"><strong>*</strong></span>
 							</label>
-							<select class="js-example-basic-single form-control" name="municipality">
-								@foreach ($barangays as $barangay)
-									<option value="{{ $barangay->id }}">
-										{{ $barangay->bar_title }}
+							<select class="js-example-basic-single form-control @error('municipality') is-invalid @enderror" id="municipality" name="municipality">
+								<option value="">Select Municipality</option>
+								@foreach ($municipalities as $municipality)
+									<option value="{{ $municipality->id }}" 
+										{{ (old('municipality') == $municipality->id) ? 'selected' : '' }}
+									>
+										{{ $municipality->mun_title }}
 									</option>
 								@endforeach
 							</select>
+							@include('errors.input_error', ['name' => 'municipality'])
+						</div>
+						<div class="form-group col-md-2">
+							<label for="barangay">
+								Barangay
+								<span class="text-danger"><strong>*</strong></span>
+							</label>
+							<select class="js-example-basic-single form-control @error('barangay') is-invalid @enderror" id="barangay" name="barangay">
+								<option value="">Select Barangay</option>
+							</select>
+							@include('errors.input_error', ['name' => 'barangay'])
 						</div>
 						<div class="form-group col-md-2">
 							<label for="zipCode">
@@ -205,6 +206,61 @@
 	<script>
 		$(document).ready(function() {
 			$('.js-example-basic-single').select2();
+
+			// Municipal Id
+			var id = $('#municipality').val();
+			console.log(id);
+			// Empty the dropdown
+			$('#barangay').find('option').not(':first').remove();
+			// AJAX Request
+			$.ajax({
+				url: '/api/barangays/'+id,
+				type: 'get',
+				dataType: 'json',
+				success: function(response) {
+					var len = 0;
+					if(response != null){
+						len = response.length;
+					}
+					if(len > 0){
+						// Read data and create <option >
+						for(var i=0; i<len; i++){
+							var id = response[i].id;
+							var title = response[i].bar_title;
+							var option = "<option value='"+id+"'>"+title+"</option>"; 
+							$("#barangay").append(option); 
+						}
+					}
+				}
+			});
+
+			$('#municipality').change(function() {
+				// Municipal Id
+				var id = $(this).val();
+				// Empty the dropdown
+				$('#barangay').find('option').not(':first').remove();
+				// AJAX Request
+				$.ajax({
+					url: '/api/barangays/'+id,
+					type: 'get',
+					dataType: 'json',
+					success: function(response) {
+						var len = 0;
+						if(response != null){
+							len = response.length;
+						}
+						if(len > 0){
+							// Read data and create <option >
+							for(var i=0; i<len; i++){
+								var id = response[i].id;
+								var title = response[i].bar_title;
+								var option = "<option value='"+id+"'>"+title+"</option>"; 
+								$("#barangay").append(option); 
+							}
+						}
+					}
+				});
+			});
 		});
 	</script>
 @stop
