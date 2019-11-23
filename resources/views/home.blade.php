@@ -54,7 +54,7 @@
     });
 
     // var marker = new mapboxgl.Marker()
-    // .setLngLat([120.4455, 15.8066])
-    // .addTo(map);
+    // .setLngLat([120.455945, 15.82445])
+    // .addTo(map); 
 </script>
 @stop
