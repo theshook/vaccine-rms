@@ -156,8 +156,8 @@
 							</label>
 							<select class="js-example-basic-single form-control" name="barangay">
 								@foreach ($barangays as $barangay)
-									<option value="{{ $barangay->bar_name }}">
-										{{ $barangay->bar_name }}
+									<option value="{{ $barangay->id }}">
+										{{ $barangay->bar_title }}
 									</option>
 								@endforeach
 							</select>
@@ -169,8 +169,8 @@
 							</label>
 							<select class="js-example-basic-single form-control" name="municipality">
 								@foreach ($barangays as $barangay)
-									<option value="{{ $barangay->bar_name }}">
-										{{ $barangay->bar_name }}
+									<option value="{{ $barangay->id }}">
+										{{ $barangay->bar_title }}
 									</option>
 								@endforeach
 							</select>

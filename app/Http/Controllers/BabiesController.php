@@ -29,7 +29,7 @@ class BabiesController extends Controller
      */
     public function create()
     {
-        $barangays = DB::table('barangays')->select('bar_name')->orderBy('bar_name', 'asc')->get();
+        $barangays = DB::table('barangays')->select('bar_title', 'id')->orderBy('bar_title', 'asc')->get();
         return view('babies.create')->withBarangays($barangays);
     }
 
