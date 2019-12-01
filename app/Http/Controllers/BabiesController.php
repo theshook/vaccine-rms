@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Baby;
 use App\Http\Requests\CreateBabiesRequest;
+use App\Http\Requests\UpdateBabiesRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -83,7 +84,7 @@ class BabiesController extends Controller
      */
     public function show(Baby $baby)
     {
-        //
+        
     }
 
     /**
@@ -94,7 +95,8 @@ class BabiesController extends Controller
      */
     public function edit(Baby $baby)
     {
-        //
+        $municipalities = DB::table('municipalities')->select('mun_title', 'id')->orderBy('mun_title', 'asc')->get();
+        return view('babies.edit')->with('baby', $baby)->with('municipalities', $municipalities);;
     }
 
     /**
@@ -104,9 +106,36 @@ class BabiesController extends Controller
      * @param  \App\Baby  $baby
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Baby $baby)
+    public function update(UpdateBabiesRequest $request, Baby $baby)
     {
-        //
+        if (!empty($request->barangay)) {
+            $barangay = $baby->getBarangayTitle($request->barangay)->bar_title;
+            $municipal = $baby->getMunicipalTitle($request->municipality)->mun_title;
+            $lnglat = $baby->getLngLat($barangay, $municipal);
+        }
+        $baby->update([
+            'baby_dob' => $request->dob, 
+            'baby_nhts' => $request->nhts, 
+            'baby_first_name' => $request->first_name, 
+            'baby_middle_name' => $request->middle_name, 
+            'baby_last_name' => $request->last_name, 
+            'baby_name_ext' => $request->name_ext, 
+            'baby_mother_first' => $request->mother_first_name, 
+            'baby_mother_middle' => $request->mother_middle_name, 
+            'baby_mother_last' => $request->mother_last_name, 
+            'baby_municipality' => $request->municipality, 
+            'baby_barangay' => $request->barangay, 
+            'baby_date_screening' => $request->dateScreening, 
+            'baby_zip' => $request->zipCode, 
+            'baby_street' => $request->street, 
+            'baby_sex' => $request->gender,
+            'baby_lat' => $lnglat[1], 
+            'baby_lng' => $lnglat[0]
+        ]);
+
+        session()->flash('success', 'Baby Information successfully updated.');
+
+        return redirect(route('babies.index'));
     }
 
     /**
@@ -120,8 +149,10 @@ class BabiesController extends Controller
         //
     }
 
-    public function apiGetMunicipalBarangay($municipal_id = 0)
+    public function apiGetMunicipalBarangay(Request $request)
     {
+        $municipal_id = ($request->empty) ? 0 : $request->idBar;
+
         $barangays = DB::table('barangays')
             ->where('municipal_id', $municipal_id)
             ->select('bar_title', 'id')->orderBy('bar_title', 'asc')->get();

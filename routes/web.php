@@ -25,4 +25,4 @@ Route::post('/users/restore/{user}', 'UsersController@restore')->name('users.res
 Route::resource('/users', 'UsersController');
 
 Route::resource('/babies', 'BabiesController');
-Route::get('api/barangays/{municipal_id}', 'BabiesController@apiGetMunicipalBarangay')->name('api.barangays');
+Route::get('api/barangays', 'BabiesController@apiGetMunicipalBarangay')->name('api.barangays');

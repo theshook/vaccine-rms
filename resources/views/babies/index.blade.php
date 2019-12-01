@@ -47,7 +47,7 @@
 							<tr>
 								<td>
 									<div class="row">
-										<a href="{{ route('users.edit', $baby->id) }}" class="btn btn-info btn-sm">
+										<a href="{{ route('babies.edit', $baby->id) }}" class="btn btn-info btn-sm">
 											<i class="fas fa-pen"></i>
 										</a>
 										&nbsp;
@@ -62,7 +62,7 @@
 								<td>
 									{{ $baby->baby_mother_first.' '. $baby->baby_mother_middle.' '.$baby->baby_mother_last }}
 								</td>
-								<td>{{ $baby->baby_street.', '.$baby->baby_barangay.', '. $baby->baby_municipality }}</td>
+								<td>{{ $baby->baby_street.', '.$baby->getBarangayTitle($baby->baby_barangay)->bar_title.', '. $baby->getMunicipalTitle($baby->baby_municipality)->mun_title }}</td>
 								<td>{{ $baby->baby_date_screening }}</td>
 							</tr>
 						@endforeach

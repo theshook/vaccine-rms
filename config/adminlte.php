@@ -200,6 +200,11 @@ return [
             'icon' => 'fas fa-fw fa-file-contract',
         ],
         [
+            'text' => 'Vaccines',
+            'url'  => 'admin/settings',
+            'icon' => 'fas fa-fw fa-syringe',
+        ],
+        [
             'text' => 'Medicines',
             'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-capsules',
