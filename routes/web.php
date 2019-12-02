@@ -26,3 +26,6 @@ Route::resource('/users', 'UsersController');
 
 Route::resource('/babies', 'BabiesController');
 Route::get('api/barangays', 'BabiesController@apiGetMunicipalBarangay')->name('api.barangays');
+
+
+Route::resource('/schedules', 'ScheduleController');
