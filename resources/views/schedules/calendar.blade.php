@@ -39,8 +39,8 @@
 			center: 'title',
 			right: 'dayGridMonth,timeGridWeek,timeGridDay'
 			},
+			events: {url: '{!! route("api.schedules") !!}'}
 		});
-
 		calendar.render();
 		});
 	  </script>

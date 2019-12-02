@@ -29,3 +29,4 @@ Route::get('api/barangays', 'BabiesController@apiGetMunicipalBarangay')->name('a
 
 
 Route::resource('/schedules', 'ScheduleController');
+Route::get('api/schedules', 'ScheduleController@apiLoadEvents')->name('api.schedules');
