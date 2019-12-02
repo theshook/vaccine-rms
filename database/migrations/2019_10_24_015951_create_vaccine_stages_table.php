@@ -16,7 +16,7 @@ class CreateVaccineStagesTable extends Migration
         Schema::create('vaccine_stages', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('v_name');
-            $table->string('v_min_age_at_first');
+            $table->integer('v_min_age_at_first');
             $table->integer('v_number_of_doses');
             $table->decimal('v_dose');
             $table->integer('v_min_interval');
