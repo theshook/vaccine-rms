@@ -44,4 +44,9 @@ class Baby extends Model
 
         return [$lng, $lat];
     }
+
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class, 'baby_id', 'id');
+    }
 }

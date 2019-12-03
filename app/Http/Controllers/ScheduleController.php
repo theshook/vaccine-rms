@@ -89,7 +89,7 @@ class ScheduleController extends Controller
             'allDay' => false,
             'start' => '2019-12-25 12:00:00',
             'end' => '2019-12-25',
-            'title' => 'Hello World',
+            'title' => 'Alesya M. Roman',
             'id' => '1',
             'url' => 'google.com',
             'color' => '#378006',

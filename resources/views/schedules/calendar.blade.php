@@ -16,14 +16,14 @@
 
 @section('content')
 <div class="row">
-	<div class="col-md-9">
+	<div class="col-md-8">
 		<div class="card card-primary">
 			<div class="card-body p-1">
 				<div id='calendar'></div>
 			</div>
 		</div>
 	</div>
-	<div class="col-md-3">
+	<div class="col-md-4">
 		<div class="card  callout callout-info p-0">
 			<div class="card-header text-center"><strong>Schedules for Today</strong></div>
 			<ul class="list-group list-group-flush">
@@ -44,6 +44,9 @@
 			var calendar = new FullCalendar.Calendar(calendarEl, {
 				plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
 				defaultView: 'dayGridMonth',
+				displayEventTime: false,				
+				height: 405,
+				contentHeight: 405,
 				windowResize: function(view) {
 					if ($(window).width() < 514){
 						$('.fc-right').hide();
@@ -56,7 +59,15 @@
 				header: {
 					left: 'prev,next today',
 					center: 'title',
-					right: 'dayGridMonth,timeGridWeek,timeGridDay'
+					right: 'dayGridMonth,dayGridWeek,dayGridDay'
+				},
+				weekends: false,
+				businessHours: {
+					// days of week. an array of zero-based day of week integers (0=Sunday)
+					daysOfWeek: [ 1, 2, 3, 4, 5], // Monday - Friday
+
+					startTime: '08:00', // a start time (8am in this example)
+					endTime: '17:00', // an end time (5pm in this example)
 				},
 				events: {url: '{!! route("api.schedules") !!}'}
 			});

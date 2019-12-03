@@ -201,7 +201,7 @@ return [
         ],
         [
             'text' => 'Vaccines',
-            'url'  => 'admin/settings',
+            'url'  => 'vaccines',
             'icon' => 'fas fa-fw fa-syringe',
         ],
         [

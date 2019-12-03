@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Baby;
 use App\Http\Requests\CreateBabiesRequest;
 use App\Http\Requests\UpdateBabiesRequest;
+use App\Schedule;
+use App\Vaccine;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -50,7 +52,7 @@ class BabiesController extends Controller
             $municipal = $baby->getMunicipalTitle($request->municipality)->mun_title;
             $lnglat = $baby->getLngLat($barangay, $municipal);
         }
-        Baby::create([
+        $baby_id = Baby::create([
             'baby_family_serial_number' => $request->baby_family_serial_number, 
             'baby_dob' => $request->dob, 
             'baby_nhts' => $request->nhts, 
@@ -69,6 +71,22 @@ class BabiesController extends Controller
             'baby_sex' => $request->gender,
             'baby_lat' => $lnglat[1], 
             'baby_lng' => $lnglat[0]
+        ]);
+        
+        // BCG Vaccine
+        Schedule::create([
+            'from' => $request->dob,
+            'to' => $request->dob,
+            'baby_id' => $baby_id->id,
+            'vaccine_stages_id' => Vaccine::where('v_name', 'BCG')->select('id')->first()->id
+        ]);
+
+        // Hepa B1 Vaccine with interval
+        Schedule::create([
+            'from' => $request->dob,
+            'to' => $request->dob,
+            'baby_id' => $baby_id->id,
+            'vaccine_stages_id' => Vaccine::where('v_name', 'Hepa B1')->select('id')->first()->id
         ]);
 
         session()->flash('success', 'Baby Information successfully saved.');
