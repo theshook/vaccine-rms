@@ -23,25 +23,44 @@
 			</div>
 		</div>
 	</div>
+	<div class="col-md-3">
+		<div class="card  callout callout-info p-0">
+			<div class="card-header text-center"><strong>Schedules for Today</strong></div>
+			<ul class="list-group list-group-flush">
+				<li class="list-group-item">Cras justo odio</li>
+				<li class="list-group-item">Dapibus ac facilisis in</li>
+				<li class="list-group-item">Vestibulum at eros</li>
+			</ul>
+		</div>
+	</div>
 </div>
 @stop
 
 @section('js')
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
-		var calendarEl = document.getElementById('calendar');
+			var calendarEl = document.getElementById('calendar');
 
-		var calendar = new FullCalendar.Calendar(calendarEl, {
-			plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
-			defaultView: 'dayGridMonth',
-			header: {
-			left: 'prev,next today',
-			center: 'title',
-			right: 'dayGridMonth,timeGridWeek,timeGridDay'
-			},
-			events: {url: '{!! route("api.schedules") !!}'}
-		});
-		calendar.render();
+			var calendar = new FullCalendar.Calendar(calendarEl, {
+				plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
+				defaultView: 'dayGridMonth',
+				windowResize: function(view) {
+					if ($(window).width() < 514){
+						$('.fc-right').hide();
+						$('.fc-left').hide();
+					} else {
+						$('.fc-right').show();
+						$('.fc-left').show();
+					}
+				},
+				header: {
+					left: 'prev,next today',
+					center: 'title',
+					right: 'dayGridMonth,timeGridWeek,timeGridDay'
+				},
+				events: {url: '{!! route("api.schedules") !!}'}
+			});
+			calendar.render();
 		});
 	  </script>
 @stop

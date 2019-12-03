@@ -91,10 +91,20 @@ class ScheduleController extends Controller
             'end' => '2019-12-25',
             'title' => 'Hello World',
             'id' => '1',
+            'url' => 'google.com',
+            'color' => '#378006',
+            'textColor' => '#fff'
+        ];
+        $events[] = $agenda;
+        $agenda = [
+            'allDay' => false,
+            'start' => '2019-12-25 13:00:00',
+            'end' => '2019-12-25',
+            'title' => 'Hello World',
+            'id' => '1',
             'url' => 'google.com'
         ];
         $events[] = $agenda;
-
         $agenda['allDay'] = false;
         $agenda['start'] = '2019-12-27 12:00:00';
         $agenda['end'] = '2019-12-27';
